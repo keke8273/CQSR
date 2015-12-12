@@ -53,6 +53,7 @@
     <Compile Include="EventSourcing\IEventSourced.cs" />
     <Compile Include="EventSourcing\IVersionedEvent.cs" />
     <Compile Include="Messaging\IEventBus.cs" />
+    <Compile Include="Messaging\ITimeStampedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
