@@ -7,11 +7,11 @@ namespace CQRS.Infrastructure.Messaging
 {
     using System;
 
-    interface ICommand
+    public interface ICommand
     {
         /// <summary>
         /// Gets the command identifier.
         /// </summary>
-        public Guid Id { get; }
+        Guid Id { get; }
     }
 }

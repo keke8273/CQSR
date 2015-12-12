@@ -50,9 +50,10 @@
         /// </summary>
         /// <typeparam name="TEvent">The type of the event.</typeparam>
         /// <param name="handler">The handler.</param>
-        protected void RegisterHandler<TEvent>(Action<TEvent> handler) where TEvent : IEvent
+        protected void RegisterHandler<TEvent>(Action<TEvent> handler) 
+            where TEvent : IEvent
         {
-            this.handler.Add(typeof(TEvent), @event => handler(@event));
+            this.handler.Add(typeof(TEvent), @event => handler((TEvent)@event));
         }
 
         protected void LoadFrom(IEnumerable<IVersionedEvent> pastEvents)
