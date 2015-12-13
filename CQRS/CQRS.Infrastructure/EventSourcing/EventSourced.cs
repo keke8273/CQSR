@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using CQRS.Infrastructure.Messaging;
 
-    class EventSourced : IEventSourced      
+    public class EventSourced : IEventSourced      
     {
         #region Member Variables
 		
