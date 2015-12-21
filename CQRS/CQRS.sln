@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRS.Infrastructure", "CQRS.Infrastructure\CQRS.Infrastructure.csproj", "{4C05D755-5060-4CAD-941B-EE33FEEA9914}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRS.Infrastructure.Sql", "CQRS.Infrastructure.Sql\CQRS.Infrastructure.Sql.csproj", "{55E3A5A1-41C6-470F-82D4-3DBB93578181}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{1DC05639-C759-4B54-8554-C15EF75E2D92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +19,15 @@ Global
 		{4C05D755-5060-4CAD-941B-EE33FEEA9914}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C05D755-5060-4CAD-941B-EE33FEEA9914}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C05D755-5060-4CAD-941B-EE33FEEA9914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55E3A5A1-41C6-470F-82D4-3DBB93578181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55E3A5A1-41C6-470F-82D4-3DBB93578181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55E3A5A1-41C6-470F-82D4-3DBB93578181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55E3A5A1-41C6-470F-82D4-3DBB93578181}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{55E3A5A1-41C6-470F-82D4-3DBB93578181} = {1DC05639-C759-4B54-8554-C15EF75E2D92}
 	EndGlobalSection
 EndGlobal
