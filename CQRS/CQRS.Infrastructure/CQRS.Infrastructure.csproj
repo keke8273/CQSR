@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="EventSourcing\EventSourced.cs" />
     <Compile Include="EventSourcing\IEventSourcedRepository.cs" />
     <Compile Include="EventSourcing\VersionedEvent.cs" />
@@ -61,6 +62,9 @@
     <Compile Include="EventSourcing\IVersionedEvent.cs" />
     <Compile Include="Messaging\IEventBus.cs" />
     <Compile Include="Messaging\ITimeStampedEvent.cs" />
+    <Compile Include="Misc\StandardMetaData.cs" />
+    <Compile Include="Misc\StandardMetaDataProvider.cs" />
+    <Compile Include="Misc\IMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\ITextSerializer.cs" />
     <Compile Include="Serialization\JsonTextSerializer.cs" />
