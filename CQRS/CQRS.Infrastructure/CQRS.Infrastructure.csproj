@@ -42,6 +42,7 @@
     <Compile Include="EventSourcing\EventSourced.cs" />
     <Compile Include="EventSourcing\IEventSourcedRepository.cs" />
     <Compile Include="EventSourcing\VersionedEvent.cs" />
+    <Compile Include="IProcessor.cs" />
     <Compile Include="Messaging\CommandBusExtensions.cs" />
     <Compile Include="Messaging\Envelope.cs" />
     <Compile Include="Messaging\EventBusExtensions.cs" />
