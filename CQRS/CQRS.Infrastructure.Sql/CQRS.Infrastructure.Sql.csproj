@@ -51,11 +51,14 @@
   <ItemGroup>
     <Compile Include="EventSourcing\EventStoreDbContext.cs" />
     <Compile Include="EventSourcing\SqlEventSourcedRepository.cs" />
+    <Compile Include="Messaging\IMessageReceiver.cs" />
     <Compile Include="Messaging\CommandBus.cs" />
     <Compile Include="Messaging\EventBus.cs" />
     <Compile Include="Messaging\IMessageSender.cs" />
+    <Compile Include="Messaging\Implementation\MessageReceiver.cs" />
     <Compile Include="Messaging\Message.cs" />
-    <Compile Include="Messaging\MessageSender.cs" />
+    <Compile Include="Messaging\Implementation\MessageSender.cs" />
+    <Compile Include="Messaging\MessageReceivedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +70,9 @@
       <Project>{4C05D755-5060-4CAD-941B-EE33FEEA9914}</Project>
       <Name>CQRS.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Messaging\Handling\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
