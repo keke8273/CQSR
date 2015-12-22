@@ -52,6 +52,7 @@
     <Compile Include="EventSourcing\EventStoreDbContext.cs" />
     <Compile Include="EventSourcing\SqlEventSourcedRepository.cs" />
     <Compile Include="Messaging\Handling\CommandProcessor.cs" />
+    <Compile Include="Messaging\Handling\EventProcessor.cs" />
     <Compile Include="Messaging\Handling\MessageProcessor.cs" />
     <Compile Include="Messaging\IMessageReceiver.cs" />
     <Compile Include="Messaging\CommandBus.cs" />
