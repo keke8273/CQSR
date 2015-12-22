@@ -14,8 +14,8 @@
 
         public EventDispatcher()
         {
-            this._handlersByEventType = new Dictionary<Type, List<Tuple<Type, Action<Envelope>>>>();
-            this._dispatchersByEventType = new Dictionary<Type, Action<IEvent, string, string, string>>();
+            _handlersByEventType = new Dictionary<Type, List<Tuple<Type, Action<Envelope>>>>();
+            _dispatchersByEventType = new Dictionary<Type, Action<IEvent, string, string, string>>();
         }
 
         public EventDispatcher(IEnumerable<IEventHandler> handlers)
@@ -23,7 +23,7 @@
         {
             foreach (var handler in handlers)
             {
-                this.Register(handler);
+                Register(handler);
             }
         }
 
@@ -31,20 +31,20 @@
         {
             var handlerType = handler.GetType();
 
-            foreach (var invocationTuple in this.BuildHandlerInvocations(handler))
+            foreach (var invocationTuple in BuildHandlerInvocations(handler))
             {
                 List<Tuple<Type, Action<Envelope>>> invocations;
 
-                if (!this._handlersByEventType.TryGetValue(invocationTuple.Item1, out invocations))
+                if (!_handlersByEventType.TryGetValue(invocationTuple.Item1, out invocations))
                 {
                     invocations = new List<Tuple<Type, Action<Envelope>>>();
-                    this._handlersByEventType[invocationTuple.Item1] = invocations;
+                    _handlersByEventType[invocationTuple.Item1] = invocations;
                 }
                 invocations.Add(new Tuple<Type, Action<Envelope>>(handlerType, invocationTuple.Item2));
 
-                if (!this._dispatchersByEventType.ContainsKey(invocationTuple.Item1))
+                if (!_dispatchersByEventType.ContainsKey(invocationTuple.Item1))
                 {
-                    this._dispatchersByEventType[invocationTuple.Item1] = this.BuildDispatchInvocation(invocationTuple.Item1);
+                    _dispatchersByEventType[invocationTuple.Item1] = BuildDispatchInvocation(invocationTuple.Item1);
                 }
             }
         }     
@@ -106,13 +106,13 @@
                 interfaces
                      .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEventHandler<>))
                      .Select(i => new { HandlerInterface = i, EventType = i.GetGenericArguments()[0] })
-                     .Select(e => new Tuple<Type, Action<Envelope>>(e.EventType, this.BuildHandlerInvocation(handler, e.HandlerInterface, e.EventType)));
+                     .Select(e => new Tuple<Type, Action<Envelope>>(e.EventType, BuildHandlerInvocation(handler, e.HandlerInterface, e.EventType)));
 
             var envelopedEventHandlerInvocations =
                 interfaces
                     .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnvelopedEventHandler<>))
                     .Select(i => new { HandlerInterface = i, EventType = i.GetGenericArguments()[0] })
-                    .Select(e => new Tuple<Type, Action<Envelope>>(e.EventType, this.BuildEnvelopeHandlerInvocation(handler, e.HandlerInterface, e.EventType)));
+                    .Select(e => new Tuple<Type, Action<Envelope>>(e.EventType, BuildEnvelopeHandlerInvocation(handler, e.HandlerInterface, e.EventType)));
 
             return eventHandlerInvocations.Union(envelopedEventHandlerInvocations);
         }
@@ -163,7 +163,7 @@
                     Expression.Block(
                         Expression.Call(
                             Expression.Constant(this),
-                            this.GetType().GetMethod("DoDispatchMessage", BindingFlags.Instance | BindingFlags.NonPublic).MakeGenericMethod(eventType),
+                            GetType().GetMethod("DoDispatchMessage", BindingFlags.Instance | BindingFlags.NonPublic).MakeGenericMethod(eventType),
                             Expression.Convert(eventParameter, eventType),
                             messageIdParameter,
                             correlationIdParameter,

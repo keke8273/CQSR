@@ -20,7 +20,7 @@ namespace CQRS.Infrastructure.Messaging
     {
         public Envelope(T body)
         {
-            this.Body = body;
+            Body = body;
         }
 
         public T Body { get; set; }
@@ -40,7 +40,7 @@ namespace CQRS.Infrastructure.Messaging
 
         public static implicit operator Envelope<T>(T body)
         {
-            return Envelope.Create(body);
+            return Create(body);
         }
     }
 }

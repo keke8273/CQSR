@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CQRS.Infrastructure.Sql.Messaging.Implementation
 {
-    public class MessageReceiver:IMessageReceiver, IDisposable
+    public class MessageReceiver : IMessageReceiver, IDisposable
     {
         private readonly IDbConnectionFactory connectionFactory;
         private readonly string name;
@@ -30,7 +29,7 @@ namespace CQRS.Infrastructure.Sql.Messaging.Implementation
             this.name = name;
             this.pollingDelay = pollingDelay;
 
-            this.readQuery =
+            readQuery =
                 string.Format(CultureInfo.InvariantCulture,
                 @"SELECT TOP (1)
                 {0}.[Id] AS [Id],
@@ -42,7 +41,7 @@ namespace CQRS.Infrastructure.Sql.Messaging.Implementation
                 ORDER BY {0}.[Id] ASC", tableName
                 );
 
-            this.deleteQuery =
+            deleteQuery =
                 string.Format(CultureInfo.InvariantCulture, "DELETE FROM {0} WHERE Id = @Id", tableName);
         }
 
@@ -50,14 +49,14 @@ namespace CQRS.Infrastructure.Sql.Messaging.Implementation
 
         public void Start()
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
                 if(cancellationSource == null)
                 {
                     cancellationSource = new CancellationTokenSource();
                     Task.Factory.StartNew(
-                        () => this.ReceiveMessages(this.cancellationSource.Token),
-                        this.cancellationSource.Token,
+                        () => ReceiveMessages(cancellationSource.Token),
+                        cancellationSource.Token,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Current);
                 }
@@ -68,12 +67,12 @@ namespace CQRS.Infrastructure.Sql.Messaging.Implementation
         {
             lock (lockObject)
             {
-                using (this.cancellationSource)
+                using (cancellationSource)
                 {
-                    if(this.cancellationSource != null)
+                    if(cancellationSource != null)
                     {
-                        this.cancellationSource.Cancel();
-                        this.cancellationSource = null;
+                        cancellationSource.Cancel();
+                        cancellationSource = null;
                     }
                 }
             }
@@ -87,7 +86,7 @@ namespace CQRS.Infrastructure.Sql.Messaging.Implementation
 
         protected virtual void Dispose(bool disposing)
         {
-            this.Stop();
+            Stop();
         }
 
         ~MessageReceiver()
@@ -99,26 +98,79 @@ namespace CQRS.Infrastructure.Sql.Messaging.Implementation
         {
             while (!cancellationSource.IsCancellationRequested)
             {
-                if(!this.ReceiveMessage())
+                if(!ReceiveMessage())
                 {
-                    Thread.Sleep(this.pollingDelay);
+                    Thread.Sleep(pollingDelay);
                 }
             }
         }
 
         protected bool ReceiveMessage()
         {
-            using (var connection = this.connectionFactory.CreateConnection(this.name))
+            using (var connection = connectionFactory.CreateConnection(name))
             {
                 var currentDate = GetCurrentDate();
 
                 connection.Open();
 
-                using (var transacation = )
+                using (var transacation = connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    
+                    try
+                    {
+                        long messageId = -1;
+                        Message message;
+                        using (var command = connection.CreateCommand())
+                        {
+                            command.Transaction = transacation;
+                            command.CommandType = CommandType.Text;
+                            command.CommandText = readQuery;
+                            ((SqlCommand) command).Parameters.Add("@CurrentDate", SqlDbType.DateTime).Value =
+                                currentDate;
+
+                            using (var reader = command.ExecuteReader())
+                            {
+                                if (!reader.Read())
+                                    return false; //no new message is received
+                                var body = (string) reader["Body"];
+                                var deliveryDateValue = reader["DeliveryDate"];
+                                var deliveryDate = deliveryDateValue == DBNull.Value
+                                    ? (DateTime?) null
+                                    : new DateTime?((DateTime) deliveryDateValue);
+                                var correlationIdValue = reader["CorrelationId"];
+                                var correlationId =
+                                    (string) (correlationIdValue == DBNull.Value ? null : correlationIdValue);
+                                message = new Message(body, deliveryDate, correlationId);
+                                messageId = (long) reader["Id"];
+                            }
+                        }
+
+                        MessageReceived(this, new MessageReceivedEventArgs(message));
+
+                        using (var command = connection.CreateCommand())
+                        {
+                            command.Transaction = transacation;
+                            command.CommandType = CommandType.Text;
+                            command.CommandText = deleteQuery;
+                            ((SqlCommand) command).Parameters.Add("@Id", SqlDbType.BigInt).Value = messageId;
+
+                            command.ExecuteNonQuery();
+                        }
+                        transacation.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transacation.Rollback();
+                        throw;
+                    }
                 }
             }
+
+            return true;
+        }
+
+        protected virtual DateTime GetCurrentDate()
+        {
+            return DateTime.UtcNow;
         }
     }
 }

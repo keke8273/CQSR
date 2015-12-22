@@ -43,25 +43,25 @@ namespace CQRS.Infrastructure
             if (info == null)
                 throw new ArgumentNullException("info");
 
-            this.entityId = Guid.Parse(info.GetString("entityId"));
-            this.entityType = info.GetString("entityType");
+            entityId = Guid.Parse(info.GetString("entityId"));
+            entityType = info.GetString("entityType");
         }
 
         public Guid EntityId
         {
-            get { return this.entityId; }
+            get { return entityId; }
         }
 
         public string EntityType
         {
-            get { return this.entityType; }
+            get { return entityType; }
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-            info.AddValue("entityId", this.entityId.ToString());
-            info.AddValue("entityType", this.entityType);
+            info.AddValue("entityId", entityId.ToString());
+            info.AddValue("entityType", entityType);
         }
     }
 }

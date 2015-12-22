@@ -53,6 +53,7 @@
     <Compile Include="Messaging\EventBusExtensions.cs" />
     <Compile Include="Messaging\Handling\EventDispatcher.cs" />
     <Compile Include="Messaging\Handling\ICommandHandler.cs" />
+    <Compile Include="Messaging\Handling\ICommandHandlerRegistry.cs" />
     <Compile Include="Messaging\Handling\IEventHandler.cs" />
     <Compile Include="Messaging\Handling\IEventHandlerRegistery.cs" />
     <Compile Include="Messaging\ICommand.cs" />

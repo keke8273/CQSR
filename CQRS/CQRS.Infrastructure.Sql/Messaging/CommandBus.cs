@@ -23,13 +23,13 @@ namespace CQRS.Infrastructure.Sql.Messaging
         public void Send(Envelope<ICommand> command)
         {
             var message = BuildMessage(command);
-            this.sender.Send(message);
+            sender.Send(message);
         }
 
         public void Send(IEnumerable<Envelope<ICommand>> commands)
         {
             var messages = commands.Select(command => BuildMessage(command));
-            this.sender.Send(messages);
+            sender.Send(messages);
         }
 
         private Message BuildMessage(Envelope<ICommand> command)

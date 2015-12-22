@@ -9,7 +9,7 @@ namespace CQRS.Infrastructure.Sql.Messaging
     {
         public Message(string body, DateTime? deliveryDate = null, string correlationId = null)
         {
-            this.Body = body;
+            Body = body;
             DeliveryDate = deliveryDate;
             CorrelationId = correlationId;
         }

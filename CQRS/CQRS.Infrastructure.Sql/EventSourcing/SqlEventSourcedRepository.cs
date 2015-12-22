@@ -37,13 +37,13 @@ namespace CQRS.Infrastructure.Sql.EventSourcing
 
         public T Find(Guid id)
         {
-            using (var context = this.contextFactory.Invoke())
+            using (var context = contextFactory.Invoke())
             {
                 var deserialized = context.Set<Event>()
                     .Where(x => x.AggregateId == id && x.AggregateType == sourceType)
                     .OrderBy(x => x.Version)
                     .AsEnumerable()
-                    .Select(this.Deserialize);
+                    .Select(Deserialize);
 
                 if (deserialized.Any())
                 {

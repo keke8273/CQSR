@@ -21,12 +21,12 @@ namespace CQRS.Infrastructure.Sql.Messaging
         {
             this.connectionFactory = connectionFactory;
             this.name = name;
-            this.insertQuery = string.Format("INSERT INTO {0} (Body, DeliveryDate, CorrelationId) VALUES (@Body, @DeliveryDate, @CorrelationId)", tableName);
+            insertQuery = string.Format("INSERT INTO {0} (Body, DeliveryDate, CorrelationId) VALUES (@Body, @DeliveryDate, @CorrelationId)", tableName);
         }
 
         public void Send(Message message)
         {
-            using (var connection = connectionFactory.CreateConnection(this.name))
+            using (var connection = connectionFactory.CreateConnection(name))
             {
                 connection.Open();
 
@@ -39,7 +39,7 @@ namespace CQRS.Infrastructure.Sql.Messaging
             //todo:: maybe switch to Database.BeginTransaction API since we are uisng EF 6.0
             using (var scope = new TransactionScope(TransactionScopeOption.Required))
             {
-                using (var connection = connectionFactory.CreateConnection(this.name))
+                using (var connection = connectionFactory.CreateConnection(name))
                 {
                     connection.Open();
 
@@ -58,7 +58,7 @@ namespace CQRS.Infrastructure.Sql.Messaging
             using (var command = (SqlCommand)connection.CreateCommand())
             {
                 command.CommandText = insertQuery;
-                command.CommandType = System.Data.CommandType.Text;
+                command.CommandType = CommandType.Text;
 
                 command.Parameters.Add("@Body", SqlDbType.NVarChar).Value = message.Body;
                 command.Parameters.Add("@DeliveryDate", SqlDbType.DateTime).Value = message.DeliveryDate.HasValue ? (object)message.DeliveryDate.Value : DBNull.Value;

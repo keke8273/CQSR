@@ -9,7 +9,7 @@ namespace CQRS.Infrastructure.Sql.Messaging
     {
         public MessageReceivedEventArgs(Message message)
         {
-            this.Message = message;
+            Message = message;
         }
 
         public Message Message { get; private set; }

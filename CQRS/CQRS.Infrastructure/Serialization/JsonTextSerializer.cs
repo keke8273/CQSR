@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Runtime.Serialization.Formatters;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +19,7 @@ namespace CQRS.Infrastructure.Serialization
             serializer = JsonSerializer.Create(new JsonSerializerSettings
                 {
                     TypeNameHandling = TypeNameHandling.All,
-                    TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple
+                    TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
                 });
         }
 
@@ -27,7 +28,7 @@ namespace CQRS.Infrastructure.Serialization
             this.serializer = serializer;
         }
 
-        public void Serialize(System.IO.TextWriter writer, object graph)
+        public void Serialize(TextWriter writer, object graph)
         {
             var jsonWriter = new JsonTextWriter(writer);
 #if DEBUG
@@ -45,7 +46,7 @@ namespace CQRS.Infrastructure.Serialization
 
             try
             {
-                return this.serializer.Deserialize(jsonReader);
+                return serializer.Deserialize(jsonReader);
             }
             catch (JsonSerializationException e)
             {

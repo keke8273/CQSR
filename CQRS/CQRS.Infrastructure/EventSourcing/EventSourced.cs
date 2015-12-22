@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using CQRS.Infrastructure.Messaging;
+    using Messaging;
 
     public class EventSourced : IEventSourced      
     {
@@ -23,7 +23,7 @@
         #region Properties
         public Guid Id
         {
-            get { return this.id; }
+            get { return id; }
         }
 
         /// <summary>
@@ -31,8 +31,8 @@
         /// </summary>
         public int Version
         {
-            get { return this.version; }
-            protected set { this.version = value; }
+            get { return version; }
+            protected set { version = value; }
         }
 
         /// <summary>
@@ -40,7 +40,7 @@
         /// </summary>
         public IEnumerable<IVersionedEvent> Events
         {
-            get { return this.pendingEvents; }
+            get { return pendingEvents; }
         } 
         #endregion
 
@@ -60,8 +60,8 @@
         {
             foreach (var e in pastEvents)
             {
-                this.handler[e.GetType()].Invoke(e);
-                this.version = e.Version;
+                handler[e.GetType()].Invoke(e);
+                version = e.Version;
             }
         }
 
@@ -70,11 +70,11 @@
         /// </summary>
         protected void Update(VersionedEvent e)
         {
-            e.SourceId = this.id;
-            e.Version = this.version + 1;
-            this.handler[e.GetType()].Invoke(e);
-            this.version = e.Version;
-            this.pendingEvents.Add(e);
+            e.SourceId = id;
+            e.Version = version + 1;
+            handler[e.GetType()].Invoke(e);
+            version = e.Version;
+            pendingEvents.Add(e);
         }
 
         #endregion
