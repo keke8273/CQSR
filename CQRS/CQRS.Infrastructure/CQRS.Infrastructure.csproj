@@ -48,6 +48,9 @@
     <Compile Include="EventSourcing\IEventSourcedRepository.cs" />
     <Compile Include="EventSourcing\VersionedEvent.cs" />
     <Compile Include="IProcessor.cs" />
+    <Compile Include="MessageLog\EventLogExtensions.cs" />
+    <Compile Include="MessageLog\IEventLogReader.cs" />
+    <Compile Include="MessageLog\QueryCriteria.cs" />
     <Compile Include="Messaging\CommandBusExtensions.cs" />
     <Compile Include="Messaging\Envelope.cs" />
     <Compile Include="Messaging\EventBusExtensions.cs" />
@@ -74,6 +77,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
