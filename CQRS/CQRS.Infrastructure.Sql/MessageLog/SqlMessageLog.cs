@@ -136,11 +136,21 @@ namespace CQRS.Infrastructure.Sql.MessageLog
                     if(context == null)
                     {
                         context = new MessageLogDbContext(sqlQuery.nameOrConnectionString);
+                        var queryable = context.Set<MessageLogEntity>().AsQueryable()
+                            .Where(x => x.Kind == StandardMetadata.EventKind);
 
+                        var where = sqlQuery.criteria.ToExpression();
+                        if(where != null)
+                            queryable = queryable.Where(where);
+
+                        events = queryable.AsEnumerable().Select(x => this.sqlQuery.serializer.Deserialize<IEvent>(x.Payload))
+                            .GetEnumerator();
                     }
+
+                    return events.MoveNext();
                 }
 
-                                public void Reset()
+                public void Reset()
                 {
                     throw new NotSupportedException();
                 }

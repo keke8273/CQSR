@@ -53,7 +53,9 @@
     <Compile Include="EventSourcing\SqlEventSourcedRepository.cs" />
     <Compile Include="MessageLog\MessageLogDbContext.cs" />
     <Compile Include="MessageLog\MessageLogEntity.cs" />
+    <Compile Include="MessageLog\QueryCriteriaExtensions.cs" />
     <Compile Include="MessageLog\SqlMessageLog.cs" />
+    <Compile Include="MessageLog\SqlMessageLogHandler.cs" />
     <Compile Include="Messaging\Handling\CommandProcessor.cs" />
     <Compile Include="Messaging\Handling\EventProcessor.cs" />
     <Compile Include="Messaging\Handling\MessageProcessor.cs" />
