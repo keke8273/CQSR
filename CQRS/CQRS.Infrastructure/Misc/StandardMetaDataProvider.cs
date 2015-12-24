@@ -16,24 +16,24 @@ namespace CQRS.Infrastructure.Misc
 
             var type = payload.GetType();
 
-            metadata[StandardMetaData.AssemblyName] = Path.GetFileNameWithoutExtension(type.Assembly.ManifestModule.FullyQualifiedName);
-            metadata[StandardMetaData.FullName] = type.FullName;
-            metadata[StandardMetaData.Namespace] = type.Namespace;
-            metadata[StandardMetaData.TypeName] = type.Name;
+            metadata[StandardMetadata.AssemblyName] = Path.GetFileNameWithoutExtension(type.Assembly.ManifestModule.FullyQualifiedName);
+            metadata[StandardMetadata.FullName] = type.FullName;
+            metadata[StandardMetadata.Namespace] = type.Namespace;
+            metadata[StandardMetadata.TypeName] = type.Name;
 
             var e = payload as IEvent;
 
             if(e != null)
             {
-                metadata[StandardMetaData.SourceId] = e.SourceId.ToString();
-                metadata[StandardMetaData.Kind] = StandardMetaData.EventKind;
+                metadata[StandardMetadata.SourceId] = e.SourceId.ToString();
+                metadata[StandardMetadata.Kind] = StandardMetadata.EventKind;
             }
 
             var c = payload as ICommand;
 
             if (c != null)
             {
-                metadata[StandardMetaData.Kind] = StandardMetaData.CommandKind;
+                metadata[StandardMetadata.Kind] = StandardMetadata.CommandKind;
             }
 
             return metadata;

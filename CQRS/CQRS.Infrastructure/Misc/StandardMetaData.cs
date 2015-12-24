@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQRS.Infrastructure.Misc
 {
-    public static class StandardMetaData
+    public static class StandardMetadata
     {
         public const string EventKind = "Event";
 
