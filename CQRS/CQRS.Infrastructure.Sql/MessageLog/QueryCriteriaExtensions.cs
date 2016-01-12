@@ -20,7 +20,7 @@ namespace CQRS.Infrastructure.Sql.MessageLog
                 if (expression == null)
                     expression = e => e.AssemblyName == value;
                 else
-                    expression = Expression.Or(e => e.AssemblyName == value);
+                    expression = expression.Or(e => e.AssemblyName == value);
             }
 
             Expression<Func<MessageLogEntity, bool>> filter = null;
@@ -33,9 +33,9 @@ namespace CQRS.Infrastructure.Sql.MessageLog
                     filter = filter.Or(e => e.FullName == value);
             }
 
-            if(filter ！= null)
+            if(filter != null)
             {
-                expression = (expression == null) ? filter : expression.Add(filter);
+                expression = (expression == null) ? filter : expression.And(filter);
                 filter = null;
             }
 
@@ -50,7 +50,7 @@ namespace CQRS.Infrastructure.Sql.MessageLog
 
             if(filter != null)
             {
-                expression = (expression == null) ? filter:expression.Add(filter);
+                expression = (expression == null) ? filter:expression.And(filter);
                 filter = null;
             }
 
@@ -65,7 +65,7 @@ namespace CQRS.Infrastructure.Sql.MessageLog
             
             if(filter != null)
             {
-                expression = (expression == null) ? filter:expression.Add(filter);
+                expression = (expression == null) ? filter:expression.And(filter);
                 filter = null;
             }
 

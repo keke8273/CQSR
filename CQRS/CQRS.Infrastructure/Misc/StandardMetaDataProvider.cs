@@ -10,7 +10,7 @@ namespace CQRS.Infrastructure.Misc
 {
     public class StandardMetaDataProvider: IMetadataProvider
     {
-        public virtual IDictionary<string, string> GetMetaData(object payload)
+        public virtual IDictionary<string, string> GetMetadata(object payload)
         {
             var metadata = new Dictionary<string, string>();
 

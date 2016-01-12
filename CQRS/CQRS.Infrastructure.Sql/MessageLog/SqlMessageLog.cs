@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CQRS.Infrastructure.Sql.MessageLog
 {
-    public class SqlMessageLog ： IEventLogReader
+    public class SqlMessageLog : IEventLogReader
     {
         private string nameOrConnectionString;
         private IMetadataProvider metadataProvider;
@@ -28,7 +28,7 @@ namespace CQRS.Infrastructure.Sql.MessageLog
         {
             using(var context = new MessageLogDbContext(this.nameOrConnectionString))
 	        {
-                var metadata = metadataProvider.GetMetaData(@event);
+                var metadata = metadataProvider.GetMetadata(@event);
                 context.Set<MessageLogEntity>().Add(new MessageLogEntity
                     {
                         Id = Guid.NewGuid(),
