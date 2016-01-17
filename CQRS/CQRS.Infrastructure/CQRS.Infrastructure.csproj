@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\IAggregateRoot.cs" />
+    <Compile Include="Database\IDataContext.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="EventSourcing\EventSourced.cs" />
@@ -68,15 +70,21 @@
     <Compile Include="EventSourcing\IEventSourced.cs" />
     <Compile Include="EventSourcing\IVersionedEvent.cs" />
     <Compile Include="Messaging\IEventBus.cs" />
+    <Compile Include="Messaging\IEventPublisher.cs" />
     <Compile Include="Messaging\ITimeStampedEvent.cs" />
     <Compile Include="Misc\StandardMetaData.cs" />
     <Compile Include="Misc\StandardMetaDataProvider.cs" />
     <Compile Include="Misc\IMetadataProvider.cs" />
+    <Compile Include="Processes\IProcessManager.cs" />
+    <Compile Include="Processes\IProcessManagerDataContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\TextSerializerExtensions.cs" />
     <Compile Include="Serialization\ITextSerializer.cs" />
     <Compile Include="Serialization\JsonTextSerializer.cs" />
+    <Compile Include="Utils\DateTimeService.cs" />
+    <Compile Include="Utils\DateTimeUtil.cs" />
     <Compile Include="Utils\GuidUtil.cs" />
+    <Compile Include="Utils\IDateTimeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

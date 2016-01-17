@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\SqlDataContext.cs" />
     <Compile Include="EventSourcing\EventStoreDbContext.cs" />
     <Compile Include="EventSourcing\SqlEventSourcedRepository.cs" />
     <Compile Include="MessageLog\MessageLogDbContext.cs" />
