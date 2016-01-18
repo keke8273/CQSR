@@ -70,6 +70,8 @@
     <Compile Include="Messaging\Message.cs" />
     <Compile Include="Messaging\Implementation\MessageSender.cs" />
     <Compile Include="Messaging\MessageReceivedEventArgs.cs" />
+    <Compile Include="Processes\SqlProcessManagerDataContext.cs" />
+    <Compile Include="Processes\UndispatchedMessages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
