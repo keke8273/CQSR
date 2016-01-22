@@ -6,12 +6,16 @@ namespace CQRS.Infrastructure.Utils
     {
         private static IDateTimeService _dateTimeService;
 
-        public static DateTime Now()
+        public static DateTime Now
         {
-            if(_dateTimeService == null)
-                throw new NullReferenceException("DateTimeService is not registered.");
+            get
+            {
+                if (
+                _dateTimeService == null)
+                    throw new NullReferenceException("DateTimeService is not registered.");
 
-            return _dateTimeService.GetCurrentDateTimeUtc();
+                return _dateTimeService.GetCurrentDateTimeUtc();    
+            }
         }
 
         public static void SetDateTimeService(IDateTimeService dateTimeService)
